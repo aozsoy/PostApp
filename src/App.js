@@ -1,7 +1,12 @@
 import React from "react";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
-  return <div>Deneme</div>;
+  return (
+    <>
+      <LoginPage />
+    </>
+  );
 }
 
 export default App;
