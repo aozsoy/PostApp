@@ -1,7 +1,9 @@
 import React from "react";
 import { Button } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
-const ButtonComp = () => {
+const ButtonComp = (props) => {
+  const { onclick, path } = props;
   return (
     <>
       <Button
@@ -9,6 +11,9 @@ const ButtonComp = () => {
         marginTop="50px"
         backgroundColor="white"
         borderRadius="7px"
+        onClick={onclick}
+        as={Link}
+        to={path}
       >
         Giriş yap
       </Button>

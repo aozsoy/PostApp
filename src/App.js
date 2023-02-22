@@ -1,12 +1,15 @@
-import React from "react";
-import LoginPage from "./pages/LoginPage";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import Router from "./Router";
 
 function App() {
-  return (
-    <>
-      <LoginPage />
-    </>
-  );
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return <Router />;
 }
 
 export default App;

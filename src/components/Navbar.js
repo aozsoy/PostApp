@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, Box, Button, Link } from "@chakra-ui/react";
+import { Text, Box, Button } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -12,8 +13,8 @@ const Navbar = () => {
       >
         POST APP
       </Text>
-      <Link to="/" margin="20px" marginRight="100px" marginInlineStart="auto">
-        <Button>Giriş Yap</Button>
+      <Link className="ml-auto mr-24" to="/">
+        <Button margin="20px">Giriş Yap</Button>
       </Link>
     </Box>
   );
