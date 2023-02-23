@@ -1,32 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, Box } from "@chakra-ui/react";
 import InputComp from "../components/InputComp";
-import ButtonComp from "../components/ButtonComp";
-import axios from "axios";
+import LoginButton from "../components/LoginButton";
+import { FetchUser } from "../utils/fetch";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [users, setUsers] = useState([]);
   const [path, setPath] = useState("");
 
-  const handleEmail = (e) => {
+  const handleEmail = async (e) => {
+    await (<FetchUser />);
     setEmail(e.target.value);
   };
 
-  const handleClick = (e) => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then((response) => setUsers(response.data))
-      .catch((error) => console.log({ error }));
-
-    users.map((user) => {
+  useEffect(() => {
+    users.some((user) => {
       if (user.email === email) {
-        console.log("Giriş başarılı");
+        console.log("use handleclick içinde");
         setPath("/usertable");
-        console.log(path);
+        console.log(path, "path güncellendi");
       }
     });
-  };
+  });
+
   return (
     <>
       <Box
@@ -41,7 +38,7 @@ const Login = () => {
           Login
         </Text>
         <InputComp onchange={handleEmail} />
-        <ButtonComp onclick={handleClick} path={path} />
+        <LoginButton path={path} />
       </Box>
     </>
   );

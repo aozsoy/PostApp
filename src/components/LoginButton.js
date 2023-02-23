@@ -2,8 +2,8 @@ import React from "react";
 import { Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-const ButtonComp = (props) => {
-  const { onclick, path } = props;
+const LoginButton = (props) => {
+  const { path } = props;
   return (
     <>
       <Button
@@ -11,7 +11,6 @@ const ButtonComp = (props) => {
         marginTop="50px"
         backgroundColor="white"
         borderRadius="7px"
-        onClick={onclick}
         as={Link}
         to={path}
       >
@@ -21,4 +20,4 @@ const ButtonComp = (props) => {
   );
 };
 
-export default ButtonComp;
+export default LoginButton;

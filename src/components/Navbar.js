@@ -2,7 +2,8 @@ import React from "react";
 import { Text, Box, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const { text } = props;
   return (
     <Box display="flex" backgroundColor="gray.100">
       <Text
@@ -14,7 +15,14 @@ const Navbar = () => {
         POST APP
       </Text>
       <Link className="ml-auto mr-24" to="/">
-        <Button margin="20px">Giriş Yap</Button>
+        <Button
+          backgroundColor="white"
+          borderRadius="7px"
+          margin="20px"
+          paddig="10px"
+        >
+          {text}
+        </Button>
       </Link>
     </Box>
   );

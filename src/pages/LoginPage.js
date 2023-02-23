@@ -5,7 +5,7 @@ import Login from "../components/Login";
 const LoginPage = () => {
   return (
     <>
-      <Navbar />
+      <Navbar text={"Giriş Yap"} />
       <Login />
     </>
   );
