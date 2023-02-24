@@ -1,19 +1,25 @@
-import React, { useState } from "react";
-import { Text, Box, SimpleGrid } from "@chakra-ui/react";
-import { FetchPost } from "../utils/fetch";
+import React, { useContext } from "react";
+import {
+  Text,
+  Box,
+  SimpleGrid,
+  Button,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  Heading,
+} from "@chakra-ui/react";
+import { GlobalContext } from "../utils/fetch";
+import { useLocation } from "react-router-dom";
+import { FaRegComments } from "react-icons/fa";
 
-const Posts = (id) => {
-  const [posts, setPosts] = useState([]);
-  <FetchPost />;
+const Posts = () => {
+  let { state } = useLocation();
+  //console.log("asafsda==>", state);
 
-  console.log(
-    posts.filter((value) => {
-      if (value.userId === id) {
-        return value;
-      }
-    })
-  );
-  //console.log(id);
+  const { posts } = useContext(GlobalContext);
+
   return (
     <>
       <Text
@@ -21,6 +27,7 @@ const Posts = (id) => {
         fontSize="30px"
         marginTop="50px"
         marginBottom="50px"
+        fontWeight="bold"
       >
         POSTS
       </Text>
@@ -32,35 +39,77 @@ const Posts = (id) => {
         marginBottom="100px"
         padding={10}
       >
-        <SimpleGrid marginTop="20px" templateColumns={"1fr 1fr"}>
+        {/* <SimpleGrid marginTop="20px" templateColumns={"1fr"}>
           {posts
-            .filter((value) => {
-              if (value.userId === 2) {
-                return value;
-              }
-            })
+            .filter((post) => post.userId === state.postId)
             .map((post, index) => (
-              <>
-                <Box
-                  backgroundColor="whiteAlpha.600"
-                  margin="10px"
-                  padding="25px"
-                  borderRadius="5%"
-                  key={index}
+              <Box
+                key={index}
+                backgroundColor="whiteAlpha.600"
+                margin="15px"
+                padding="25px"
+                borderRadius="5%"
+              >
+                <Text
+                  textAlign="center"
+                  fontSize="20px"
+                  fontWeight="bold"
+                  marginBottom="10px"
                 >
-                  <Text textAlign="center" fontSize="18px">
-                    {post.title}
+                  {post.title.toUpperCase()}
+                </Text>
+                <Text textAlign="left" fontSize="18px">
+                  {post.body}
+                </Text>
+                <Text textAlign="right" fontSize="16px">
+                  {state.username}-{post.id}
+                </Text>
+                <Button backgroundColor="white" borderRadius="7px">
+                  Comments
+                </Button>
+              </Box>
+            ))}
+        </SimpleGrid> */}
+        <Accordion marginTop="20px" allowMultiple>
+          {posts
+            .filter((post) => post.userId === state.postId)
+            .map((post, index) => (
+              <AccordionItem
+                key={index}
+                backgroundColor="whiteAlpha.600"
+                margin="15px"
+                padding="25px"
+                borderRadius="5%"
+              >
+                <Heading>
+                  <Text
+                    textAlign="center"
+                    fontSize="20px"
+                    fontWeight="bold"
+                    marginBottom="10px"
+                  >
+                    {post.title.toUpperCase()}
                   </Text>
+
                   <Text textAlign="left" fontSize="18px">
                     {post.body}
                   </Text>
-                  <Text textAlign="left" fontSize="18px">
-                    {post.userId}
+                  <Text textAlign="right" fontSize="16px">
+                    {state.username}-{post.id}
                   </Text>
-                </Box>
-              </>
+                  <AccordionButton>
+                    <FaRegComments fontSize="18px" />
+                    <Text marginLeft="5px">Comments</Text>
+                  </AccordionButton>
+                </Heading>
+                <AccordionPanel inlineSize="max-content">
+                  <Text textAlign="right" fontSize="16px">
+                    {state.username}-{post.id}
+                  </Text>
+                </AccordionPanel>
+              </AccordionItem>
             ))}
-        </SimpleGrid>
+        </Accordion>
       </Box>
     </>
   );

@@ -1,21 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Text, Box, Button, SimpleGrid } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { FetchUser } from "../utils/fetch";
-import Posts from "./Posts";
+import { GlobalContext } from "../utils/fetch";
 
 const UserTable = () => {
-  const [users, setUsers] = useState([]);
   const [path, setPath] = useState("");
+  const { users } = useContext(GlobalContext);
 
-  <FetchUser />;
-
-  const handleClick = (index) => {
-    console.log(index);
-    setPath("/posts");
-    console.log(path, "path güncellendi");
-    <Posts id={index} />;
-  };
+  useEffect(() => setPath("/posts"));
 
   return (
     <>
@@ -24,6 +16,7 @@ const UserTable = () => {
         fontSize="30px"
         marginTop="50px"
         marginBottom="50px"
+        fontWeight="bold"
       >
         USERS
       </Text>
@@ -37,48 +30,45 @@ const UserTable = () => {
       >
         <SimpleGrid marginTop="20px" templateColumns={"1fr 1fr"}>
           {users.map((user, index) => (
-            <>
-              <Box
-                key={index}
-                backgroundColor="whiteAlpha.600"
-                margin="10px"
-                padding="25px"
-                borderRadius="5%"
+            <Box
+              key={index}
+              backgroundColor="whiteAlpha.600"
+              margin="10px"
+              padding="25px"
+              borderRadius="5%"
+            >
+              <Text textAlign="center" fontSize="20px" fontWeight="bold">
+                {user.username}
+              </Text>
+              <Text textAlign="left" fontSize="18px">
+                Name: {user.name}
+              </Text>
+              <Text textAlign="left" fontSize="18px">
+                Phone: {user.phone}
+              </Text>
+              <Text textAlign="left" fontSize="18px">
+                Website: {user.website}
+              </Text>
+              <Text textAlign="left" fontSize="18px">
+                Company: {user.company.name}
+              </Text>
+              <Text textAlign="left" fontSize="18px">
+                Adress: {user.address.street}, {user.address.suite},{" "}
+                {user.address.city}, {user.address.zipcode}
+              </Text>
+              <Button
+                minWidth="-webkit-fill-available"
+                alignSelf="center"
+                backgroundColor="white"
+                borderRadius="7px"
+                marginTop="10px"
+                as={Link}
+                to={path}
+                state={{ postId: user.id, username: user.username }}
               >
-                <Text textAlign="center" fontSize="18px">
-                  {user.username}
-                </Text>
-                <Text textAlign="left" fontSize="18px">
-                  Name: {user.name}
-                </Text>
-                <Text textAlign="left" fontSize="18px">
-                  Phone: {user.phone}
-                </Text>
-                <Text textAlign="left" fontSize="18px">
-                  Website: {user.website}
-                </Text>
-                <Text textAlign="left" fontSize="18px">
-                  Company: {user.company.name}
-                </Text>
-                <Text textAlign="left" fontSize="18px">
-                  Adress: {user.address.street}, {user.address.suite},{" "}
-                  {user.address.city}, {user.address.zipcode}
-                </Text>
-                <Button
-                  minWidth="-webkit-fill-available"
-                  alignSelf="center"
-                  backgroundColor="white"
-                  borderRadius="7px"
-                  key={index}
-                  marginTop="10px"
-                  onClick={() => handleClick(index)}
-                  as={Link}
-                  to={path}
-                >
-                  {user.username}'s Posts
-                </Button>
-              </Box>
-            </>
+                {user.username}'s Posts
+              </Button>
+            </Box>
           ))}
         </SimpleGrid>
       </Box>

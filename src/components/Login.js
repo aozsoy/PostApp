@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Text, Box } from "@chakra-ui/react";
 import InputComp from "../components/InputComp";
 import LoginButton from "../components/LoginButton";
-import { FetchUser } from "../utils/fetch";
+import { GlobalContext } from "../utils/fetch";
 
 const Login = () => {
   const [email, setEmail] = useState("");
-  const [users, setUsers] = useState([]);
   const [path, setPath] = useState("");
-
-  const handleEmail = async (e) => {
-    await (<FetchUser />);
-    setEmail(e.target.value);
-  };
+  const { users } = useContext(GlobalContext);
 
   useEffect(() => {
     users.some((user) => {
       if (user.email === email) {
-        console.log("use handleclick içinde");
         setPath("/usertable");
         console.log(path, "path güncellendi");
       }
@@ -37,7 +31,11 @@ const Login = () => {
         <Text textAlign="center" fontSize="25px">
           Login
         </Text>
-        <InputComp onchange={handleEmail} />
+        <InputComp
+          onchange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
         <LoginButton path={path} />
       </Box>
     </>

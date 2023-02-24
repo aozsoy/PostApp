@@ -1,24 +1,36 @@
-import { useState } from "react";
+import { useState, createContext, useEffect } from "react";
 import axios from "axios";
 
-export const FetchUser = () => {
+export const GlobalContext = createContext();
+
+export const GlobalProvider = (props) => {
   const [users, setUsers] = useState([]);
+  const [posts, setPosts] = useState([]);
 
-  axios
-    .get("https://jsonplaceholder.typicode.com/users")
-    .then((response) => setUsers(response.data))
-    .catch((error) => console.log("Kullanıcı bilgileri alınamadı", { error }));
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then((response) => setUsers(response.data))
+      .catch((error) =>
+        console.log("Kullanıcı bilgileri alınamadı", { error })
+      );
+  }, []);
 
-  console.log(users);
-};
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => setPosts(response.data))
+      .catch((error) => console.log("Post bilgileri alınamadı", { error }));
+  }, []);
 
-export const FetchPost = () => {
-  const [users, setUsers] = useState([]);
-
-  axios
-    .get("https://jsonplaceholder.typicode.com/users")
-    .then((response) => setUsers(response.data))
-    .catch((error) => console.log("Kullanıcı bilgileri alınamadı", { error }));
-
-  console.log(users);
+  return (
+    <GlobalContext.Provider
+      value={{
+        users,
+        posts,
+      }}
+    >
+      {props.children}
+    </GlobalContext.Provider>
+  );
 };
