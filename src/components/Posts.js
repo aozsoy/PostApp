@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 import {
   Text,
   Box,
-  SimpleGrid,
-  Button,
   Accordion,
   AccordionItem,
   AccordionButton,
@@ -13,12 +11,11 @@ import {
 import { GlobalContext } from "../utils/fetch";
 import { useLocation } from "react-router-dom";
 import { FaRegComments } from "react-icons/fa";
+import { BiUserCircle } from "react-icons/bi";
 
 const Posts = () => {
   let { state } = useLocation();
-  //console.log("asafsda==>", state);
-
-  const { posts } = useContext(GlobalContext);
+  const { postsQuery, commentsQuery } = useContext(GlobalContext);
 
   return (
     <>
@@ -39,39 +36,8 @@ const Posts = () => {
         marginBottom="100px"
         padding={10}
       >
-        {/* <SimpleGrid marginTop="20px" templateColumns={"1fr"}>
-          {posts
-            .filter((post) => post.userId === state.postId)
-            .map((post, index) => (
-              <Box
-                key={index}
-                backgroundColor="whiteAlpha.600"
-                margin="15px"
-                padding="25px"
-                borderRadius="5%"
-              >
-                <Text
-                  textAlign="center"
-                  fontSize="20px"
-                  fontWeight="bold"
-                  marginBottom="10px"
-                >
-                  {post.title.toUpperCase()}
-                </Text>
-                <Text textAlign="left" fontSize="18px">
-                  {post.body}
-                </Text>
-                <Text textAlign="right" fontSize="16px">
-                  {state.username}-{post.id}
-                </Text>
-                <Button backgroundColor="white" borderRadius="7px">
-                  Comments
-                </Button>
-              </Box>
-            ))}
-        </SimpleGrid> */}
         <Accordion marginTop="20px" allowMultiple>
-          {posts
+          {postsQuery.data
             .filter((post) => post.userId === state.postId)
             .map((post, index) => (
               <AccordionItem
@@ -79,34 +45,57 @@ const Posts = () => {
                 backgroundColor="whiteAlpha.600"
                 margin="15px"
                 padding="25px"
-                borderRadius="5%"
+                borderRadius="30px"
               >
                 <Heading>
-                  <Text
-                    textAlign="center"
-                    fontSize="20px"
-                    fontWeight="bold"
-                    marginBottom="10px"
-                  >
+                  <Text textAlign="center" fontSize="20px" marginBottom="10px">
                     {post.title.toUpperCase()}
                   </Text>
-
-                  <Text textAlign="left" fontSize="18px">
+                  <Text textAlign="left" fontSize="18px" fontWeight="normal">
                     {post.body}
                   </Text>
                   <Text textAlign="right" fontSize="16px">
-                    {state.username}-{post.id}
+                    {state.username}
                   </Text>
-                  <AccordionButton>
-                    <FaRegComments fontSize="18px" />
-                    <Text marginLeft="5px">Comments</Text>
+                  <AccordionButton marginTop="10px">
+                    <FaRegComments fontSize="20px" />
+                    <Text marginLeft="10px">Comments</Text>
                   </AccordionButton>
                 </Heading>
-                <AccordionPanel inlineSize="max-content">
-                  <Text textAlign="right" fontSize="16px">
-                    {state.username}-{post.id}
-                  </Text>
-                </AccordionPanel>
+                {commentsQuery.data
+                  .filter((comment) => post.id === comment.postId)
+                  .map((comment, index) => (
+                    <AccordionPanel
+                      key={index}
+                      borderWidth="2px"
+                      borderColor="gray.300"
+                      borderRadius="20px"
+                      marginTop="5px"
+                    >
+                      <Box display="flex">
+                        <Box className="self-center">
+                          <BiUserCircle fontSize="30px" />
+                        </Box>
+                        <Box>
+                          <Text
+                            fontSize="15px"
+                            marginLeft="10px"
+                            fontWeight="bold"
+                            className="capitalize "
+                          >
+                            {comment.name}
+                          </Text>
+
+                          <Text fontSize="13px" marginLeft="10px">
+                            {comment.email}
+                          </Text>
+                        </Box>
+                      </Box>
+                      <Text fontSize="16px" marginTop="20px">
+                        {comment.body}
+                      </Text>
+                    </AccordionPanel>
+                  ))}
               </AccordionItem>
             ))}
         </Accordion>

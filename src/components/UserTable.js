@@ -1,13 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
+//import React, { useState, useEffect } from "react";
 import { Text, Box, Button, SimpleGrid } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../utils/fetch";
 
 const UserTable = () => {
-  const [path, setPath] = useState("");
-  const { users } = useContext(GlobalContext);
-
-  useEffect(() => setPath("/posts"));
+  //const [path, setPath] = useState("");
+  const { usersQuery } = useContext(GlobalContext);
+  //useEffect(() => setPath("/posts"));
 
   return (
     <>
@@ -29,7 +29,7 @@ const UserTable = () => {
         padding={10}
       >
         <SimpleGrid marginTop="20px" templateColumns={"1fr 1fr"}>
-          {users.map((user, index) => (
+          {usersQuery.data.map((user, index) => (
             <Box
               key={index}
               backgroundColor="whiteAlpha.600"
@@ -63,7 +63,7 @@ const UserTable = () => {
                 borderRadius="7px"
                 marginTop="10px"
                 as={Link}
-                to={path}
+                to={"/posts"}
                 state={{ postId: user.id, username: user.username }}
               >
                 {user.username}'s Posts

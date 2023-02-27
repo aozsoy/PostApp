@@ -7,13 +7,15 @@ import { GlobalContext } from "../utils/fetch";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [path, setPath] = useState("");
-  const { users } = useContext(GlobalContext);
+  const { usersQuery } = useContext(GlobalContext);
 
   useEffect(() => {
-    users.some((user) => {
+    usersQuery.data.some((user) => {
       if (user.email === email) {
         setPath("/usertable");
         console.log(path, "path güncellendi");
+      } else {
+        console.log("E-mail hatalı");
       }
     });
   });
