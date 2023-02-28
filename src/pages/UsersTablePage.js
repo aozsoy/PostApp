@@ -1,14 +1,14 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import UserTable from "../components/UserTable";
+import UsersDataTable from "../components/UsersDataTable";
 
-const UserTablePage = () => {
+const UsersTablePage = () => {
   return (
     <>
       <Navbar text={"Çıkış Yap"} />
-      <UserTable />
+      <UsersDataTable />
     </>
   );
 };
 
-export default UserTablePage;
+export default UsersTablePage;
