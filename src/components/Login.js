@@ -1,27 +1,34 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Text, Box, Input, Button } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-//import InputComp from "../components/InputComp";
-//import LoginButton from "../components/LoginButton";
 import { GlobalContext } from "../utils/fetch";
-import { Formik, Form } from "formik";
-import { UserEmailValidation } from "../utils/validation";
+import { Form, useFormik, Formik, ErrorMessage } from "formik";
+import { useNavigate } from "react-router-dom";
+import { validationSchema } from "../utils/validation";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [path, setPath] = useState("");
   const { usersQuery } = useContext(GlobalContext);
-  console.log(email);
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  const [loginError, setLoginError] = useState("");
+  const [failedTimes, setFailedTimes] = useState(0);
+
+  const onSubmit = async (values) => {
+    console.log("values.email", values.email);
     usersQuery.data.some((user) => {
-      if (user.email === email) {
-        setPath("/usertable");
-        console.log(path, "path güncellendi");
+      if (user.email === values.email) {
+        navigate("/usertable");
       } else {
-        console.log("E-mail hatalı");
+        setLoginError("Email is incorrect");
+        setFailedTimes(failedTimes + 1);
       }
     });
+  };
+
+  const formik = useFormik({
+    initialValues: { email: "" },
+    validateOnBlur: true,
+    onSubmit,
+    validationSchema: validationSchema,
   });
 
   return (
@@ -37,51 +44,50 @@ const Login = () => {
         <Text textAlign="center" fontSize="25px">
           Login
         </Text>
-        {/* <InputComp
-          onchange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <LoginButton path={path} /> */}
-        <Formik
-          initialValues={{
-            email: "",
-          }}
-          validationSchema={UserEmailValidation()}
-        >
-          {({ errors, handleSubmit, handleChange, touched }) => (
-            <Form onSubmit={handleSubmit}>
-              <Box>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="E-mail"
-                  onChange={handleChange}
-                  borderWidth={1}
-                  borderColor="black"
-                  marginTop="50px"
-                  variant="outline"
-                />
-                {errors.email && touched.email && (
-                  <Text as="sub" color="red.500">
-                    {errors.email}
-                  </Text>
-                )}
-                <Button
-                  type="submit"
-                  minWidth="-webkit-fill-available"
-                  marginTop="50px"
-                  backgroundColor="white"
-                  borderRadius="7px"
-                  //as={Link}
-                  //to={path}
-                >
-                  Giriş yap
-                </Button>
-              </Box>
+        <Formik>
+          <>
+            <Form onSubmit={formik.handleSubmit}>
+              <Input
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="E-mail"
+                borderWidth={1}
+                borderColor="black"
+                marginTop="50px"
+                variant="outline"
+              />
+              {formik.errors.email && formik.touched.email ? (
+                <Text as="sub" color="red.500" marginLeft="5px">
+                  {formik.errors.email}
+                </Text>
+              ) : (
+                ""
+              )}
+              {loginError && (
+                <Text as="sub" color="red.500" marginLeft="5px">
+                  {loginError}
+                </Text>
+              )}
+              {failedTimes >= 3 && (
+                <Text as="sub" color="red.500" marginLeft="5px">
+                  Failed to login 3 times, please refresh your page
+                </Text>
+              )}
+              <ErrorMessage name="email" />
+              <Button
+                type="submit"
+                isDisabled={failedTimes >= 3 ? true : null}
+                minWidth="-webkit-fill-available"
+                marginTop="50px"
+                backgroundColor="white"
+                borderRadius="7px"
+              >
+                Giriş yap
+              </Button>
             </Form>
-          )}
+          </>
         </Formik>
       </Box>
     </>
