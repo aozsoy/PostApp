@@ -6,7 +6,7 @@ import TitleComp from "../components/TitleComp";
 const UsersTablePage = () => {
   return (
     <>
-      <Navbar text={"Çıkış Yap"} />
+      <Navbar text={"Log out"} />
       <TitleComp title={"USERS"} />
       <UsersDataTable />
     </>

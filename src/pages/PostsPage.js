@@ -6,7 +6,7 @@ import TitleComp from "../components/TitleComp";
 const PostsPage = () => {
   return (
     <>
-      <Navbar text={"Çıkış Yap"} />
+      <Navbar text={"Log out"} />
       <TitleComp title={"POSTS"} />
       <Posts />
     </>

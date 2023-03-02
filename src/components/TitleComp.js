@@ -12,7 +12,7 @@ const TitleComp = (props) => {
         fontWeight="bold"
       >
         {title}
-      </Text>{" "}
+      </Text>
     </>
   );
 };

@@ -12,7 +12,7 @@ const ATTEMPT_COUNT = 3;
 const isExceedTheAttemptCount = (size) => size >= ATTEMPT_COUNT;
 
 const Login = () => {
-  const { usersQuery } = useContext(GlobalContext);
+  const { usersResult } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   const [loginError, setLoginError] = useState("");
@@ -23,7 +23,7 @@ const Login = () => {
   );
 
   const onSubmit = async (values) => {
-    const isEmailExists = usersQuery.data.some(
+    const isEmailExists = usersResult.data.some(
       (user) => user.email === values.email
     );
     if (isEmailExists) {

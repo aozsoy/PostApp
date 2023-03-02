@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { GlobalContext } from "../utils/fetch";
 
 const UsersDataTable = () => {
-  const { usersQuery } = useContext(GlobalContext);
+  const { usersResult } = useContext(GlobalContext);
 
   const columns = [
     {
@@ -81,7 +81,7 @@ const UsersDataTable = () => {
       <Box width="85%" margin="75px" marginTop="50px">
         <DataTable
           columns={columns}
-          data={usersQuery.data}
+          data={usersResult.data}
           expandableRows
           expandableRowsComponent={ExpandedComponent}
         />

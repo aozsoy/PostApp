@@ -15,13 +15,13 @@ import { BiUserCircle } from "react-icons/bi";
 
 const Posts = () => {
   let { state } = useLocation();
-  const { postsQuery, commentsQuery } = useContext(GlobalContext);
+  const { postsResult, commentsResult } = useContext(GlobalContext);
 
   return (
     <>
       <Box height="auto" width="80%" margin="auto" marginBottom="100px">
         <Accordion allowMultiple>
-          {postsQuery.data
+          {postsResult.data
             .filter((post) => post.userId === state.postId)
             .map((post, index) => (
               <AccordionItem
@@ -54,7 +54,7 @@ const Posts = () => {
                     </Text>
                   </AccordionButton>
                 </Heading>
-                {commentsQuery.data
+                {commentsResult.data
                   .filter((comment) => post.id === comment.postId)
                   .map((comment, index) => (
                     <AccordionPanel
