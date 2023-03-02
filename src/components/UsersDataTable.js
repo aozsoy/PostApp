@@ -40,7 +40,6 @@ const UsersDataTable = () => {
         <Button
           display="contents"
           fontSize="13px"
-          backgroundColor="gray"
           as={Link}
           to={"/posts"}
           state={{ postId: row.id, username: row.username }}
@@ -79,16 +78,7 @@ const UsersDataTable = () => {
 
   return (
     <>
-      <Text
-        textAlign="center"
-        fontSize="30px"
-        marginTop="50px"
-        marginBottom="50px"
-        fontWeight="bold"
-      >
-        USERS
-      </Text>
-      <Box width="90%" margin="50px">
+      <Box width="85%" margin="75px" marginTop="50px">
         <DataTable
           columns={columns}
           data={usersQuery.data}

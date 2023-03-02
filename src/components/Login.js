@@ -1,9 +1,15 @@
-import React, { useState, useContext } from "react";
-import { Text, Box, Input, Button } from "@chakra-ui/react";
+import React, { useState, useContext, useMemo } from "react";
+import { Text, Box } from "@chakra-ui/react";
 import { GlobalContext } from "../utils/fetch";
-import { Form, useFormik, Formik, ErrorMessage } from "formik";
+import { Form, useFormik, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { validationSchema } from "../utils/validation";
+import InputLogin from "./InputLogin";
+import ButtonLogin from "./ButtonLogin";
+
+const ATTEMPT_COUNT = 3;
+
+const isExceedTheAttemptCount = (size) => size >= ATTEMPT_COUNT;
 
 const Login = () => {
   const { usersQuery } = useContext(GlobalContext);
@@ -11,17 +17,21 @@ const Login = () => {
 
   const [loginError, setLoginError] = useState("");
   const [failedTimes, setFailedTimes] = useState(0);
+  const isExceed = useMemo(
+    () => isExceedTheAttemptCount(failedTimes),
+    [failedTimes]
+  );
 
   const onSubmit = async (values) => {
-    console.log("values.email", values.email);
-    usersQuery.data.some((user) => {
-      if (user.email === values.email) {
-        navigate("/usertable");
-      } else {
-        setLoginError("Email is incorrect");
-        setFailedTimes(failedTimes + 1);
-      }
-    });
+    const isEmailExists = usersQuery.data.some(
+      (user) => user.email === values.email
+    );
+    if (isEmailExists) {
+      navigate("/usertable");
+    } else {
+      setLoginError("Email is incorrect");
+      setFailedTimes((prev) => prev + 1);
+    }
   };
 
   const formik = useFormik({
@@ -34,7 +44,7 @@ const Login = () => {
   return (
     <>
       <Box
-        backgroundColor={"gray.100"}
+        backgroundColor={"grayColor"}
         height={350}
         width={600}
         margin="auto"
@@ -47,45 +57,36 @@ const Login = () => {
         <Formik>
           <>
             <Form onSubmit={formik.handleSubmit}>
-              <Input
-                name="email"
+              <InputLogin
+                name={"email"}
                 value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                placeholder="E-mail"
-                borderWidth={1}
-                borderColor="black"
-                marginTop="50px"
-                variant="outline"
+                onchange={formik.handleChange}
+                onblur={formik.handleBlur}
               />
               {formik.errors.email && formik.touched.email ? (
-                <Text as="sub" color="red.500" marginLeft="5px">
+                <Text as="sub" color="redColor" marginLeft="5px">
                   {formik.errors.email}
                 </Text>
               ) : (
                 ""
               )}
               {loginError && (
-                <Text as="sub" color="red.500" marginLeft="5px">
+                <Text as="sub" color="redColor" marginLeft="5px">
                   {loginError}
                 </Text>
               )}
-              {failedTimes >= 3 && (
-                <Text as="sub" color="red.500" marginLeft="5px">
+              {isExceed && (
+                <Text
+                  as="sub"
+                  color="redColor"
+                  display="block"
+                  marginTop="5px"
+                  marginLeft="5px"
+                >
                   Failed to login 3 times, please refresh your page
                 </Text>
               )}
-              <ErrorMessage name="email" />
-              <Button
-                type="submit"
-                isDisabled={failedTimes >= 3 ? true : null}
-                minWidth="-webkit-fill-available"
-                marginTop="50px"
-                backgroundColor="white"
-                borderRadius="7px"
-              >
-                Giriş yap
-              </Button>
+              <ButtonLogin type={"submit"} isdisabled={isExceed} />
             </Form>
           </>
         </Formik>

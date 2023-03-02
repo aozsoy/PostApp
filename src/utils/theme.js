@@ -9,6 +9,10 @@ const breakpoints = {
 
 export const theme = extendTheme({
   breakpoints,
-  colors: {},
-  components: {},
+  colors: {
+    whiteColor: "#FFFFFF",
+    blackColor: "#000000",
+    grayColor: "	#EEEEEE",
+    redColor: "#F44336",
+  },
 });

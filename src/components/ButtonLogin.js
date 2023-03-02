@@ -1,18 +1,17 @@
 import React from "react";
 import { Button } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 
-const LoginButton = (props) => {
-  const { path } = props;
+const ButtonLogin = (props) => {
+  const { type, isdisabled } = props;
   return (
     <>
       <Button
+        type={type}
         minWidth="-webkit-fill-available"
         marginTop="50px"
-        backgroundColor="white"
+        backgroundColor="whiteColor"
         borderRadius="7px"
-        as={Link}
-        to={path}
+        isDisabled={isdisabled}
       >
         Giriş yap
       </Button>
@@ -20,4 +19,4 @@ const LoginButton = (props) => {
   );
 };
 
-export default LoginButton;
+export default ButtonLogin;

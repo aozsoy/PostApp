@@ -19,17 +19,8 @@ const Posts = () => {
 
   return (
     <>
-      <Text
-        textAlign="center"
-        fontSize="30px"
-        marginTop="50px"
-        marginBottom="50px"
-        fontWeight="bold"
-      >
-        POSTS
-      </Text>
       <Box
-        backgroundColor={"gray.100"}
+        backgroundColor={"grayColor"}
         height="auto"
         width="90%"
         margin="auto"
@@ -42,7 +33,7 @@ const Posts = () => {
             .map((post, index) => (
               <AccordionItem
                 key={index}
-                backgroundColor="whiteAlpha.600"
+                backgroundColor="whiteColor"
                 margin="15px"
                 padding="25px"
                 borderRadius="30px"
@@ -68,7 +59,7 @@ const Posts = () => {
                     <AccordionPanel
                       key={index}
                       borderWidth="2px"
-                      borderColor="gray.300"
+                      borderColor="grayColor"
                       borderRadius="20px"
                       marginTop="5px"
                     >
