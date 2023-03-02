@@ -19,38 +19,39 @@ const Posts = () => {
 
   return (
     <>
-      <Box
-        backgroundColor={"grayColor"}
-        height="auto"
-        width="90%"
-        margin="auto"
-        marginBottom="100px"
-        padding={10}
-      >
-        <Accordion marginTop="20px" allowMultiple>
+      <Box height="auto" width="80%" margin="auto" marginBottom="100px">
+        <Accordion allowMultiple>
           {postsQuery.data
             .filter((post) => post.userId === state.postId)
             .map((post, index) => (
               <AccordionItem
                 key={index}
-                backgroundColor="whiteColor"
+                backgroundColor="grayColor"
                 margin="15px"
                 padding="25px"
                 borderRadius="30px"
               >
                 <Heading>
-                  <Text textAlign="center" fontSize="20px" marginBottom="10px">
+                  <Text textAlign="center" fontSize="15px" marginBottom="10px">
                     {post.title.toUpperCase()}
                   </Text>
-                  <Text textAlign="left" fontSize="18px" fontWeight="normal">
+                  <Text textAlign="left" fontSize="13px" fontWeight="normal">
                     {post.body}
                   </Text>
-                  <Text textAlign="right" fontSize="16px">
+                  <Text textAlign="right" fontSize="13px">
                     {state.username}
                   </Text>
-                  <AccordionButton marginTop="10px">
-                    <FaRegComments fontSize="20px" />
-                    <Text marginLeft="10px">Comments</Text>
+                  <AccordionButton
+                    marginTop="10px"
+                    borderRadius="20px"
+                    borderWidth="2px"
+                    borderColor="whiteColor"
+                    inlineSize="max-content"
+                  >
+                    <FaRegComments fontSize="15px" />
+                    <Text marginLeft="10px" fontSize="13px">
+                      Comments
+                    </Text>
                   </AccordionButton>
                 </Heading>
                 {commentsQuery.data
@@ -58,18 +59,17 @@ const Posts = () => {
                   .map((comment, index) => (
                     <AccordionPanel
                       key={index}
-                      borderWidth="2px"
-                      borderColor="grayColor"
+                      backgroundColor="whiteColor"
                       borderRadius="20px"
                       marginTop="5px"
                     >
                       <Box display="flex">
                         <Box className="self-center">
-                          <BiUserCircle fontSize="30px" />
+                          <BiUserCircle fontSize="27px" />
                         </Box>
                         <Box>
                           <Text
-                            fontSize="15px"
+                            fontSize="13px"
                             marginLeft="10px"
                             fontWeight="bold"
                             className="capitalize "
@@ -77,12 +77,12 @@ const Posts = () => {
                             {comment.name}
                           </Text>
 
-                          <Text fontSize="13px" marginLeft="10px">
+                          <Text fontSize="11px" marginLeft="10px">
                             {comment.email}
                           </Text>
                         </Box>
                       </Box>
-                      <Text fontSize="16px" marginTop="20px">
+                      <Text fontSize="12px" marginTop="10px">
                         {comment.body}
                       </Text>
                     </AccordionPanel>
