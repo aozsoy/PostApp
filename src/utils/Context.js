@@ -35,8 +35,6 @@ export const GlobalProvider = (props) => {
 
   const [state, dispatch] = useReducer(loginReducer, initialState);
 
-  console.log("state", state);
-
   const usersResult = useQuery({
     queryKey: ["users"],
     queryFn: () =>
