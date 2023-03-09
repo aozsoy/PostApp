@@ -2,8 +2,7 @@ import React, { useContext } from "react";
 import DataTable from "react-data-table-component";
 import { Text, Button, Box } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-
-import { GlobalContext } from "../utils/fetch";
+import { GlobalContext } from "../utils/Context";
 
 const UsersDataTable = () => {
   const { usersResult } = useContext(GlobalContext);
@@ -41,8 +40,12 @@ const UsersDataTable = () => {
           display="contents"
           fontSize="13px"
           as={Link}
-          to={"/posts"}
-          state={{ postId: row.id, username: row.username }}
+          to={`${row.id}/posts`}
+          state={{
+            userId: row.id,
+            postId: row.id,
+            username: row.username,
+          }}
         >
           {row.username}'s Posts
         </Button>

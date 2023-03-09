@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider, Text } from "@chakra-ui/react";
 import { theme } from "../src/utils/theme";
 import { BrowserRouter } from "react-router-dom";
-import { GlobalProvider } from "./utils/fetch";
+import { GlobalProvider } from "./utils/Context";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();

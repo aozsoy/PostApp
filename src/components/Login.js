@@ -1,6 +1,6 @@
 import React, { useState, useContext, useMemo } from "react";
 import { Text, Box } from "@chakra-ui/react";
-import { GlobalContext } from "../utils/fetch";
+import { GlobalContext } from "../utils/Context";
 import { Form, useFormik, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { validationSchema } from "../utils/validation";
@@ -12,7 +12,7 @@ const ATTEMPT_COUNT = 3;
 const isExceedTheAttemptCount = (size) => size >= ATTEMPT_COUNT;
 
 const Login = () => {
-  const { usersResult } = useContext(GlobalContext);
+  const { usersResult, dispatch } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   const [loginError, setLoginError] = useState("");
@@ -23,12 +23,18 @@ const Login = () => {
   );
 
   const onSubmit = async (values) => {
+    dispatch({ type: "LOGIN_PENDING" });
     const isEmailExists = usersResult.data.some(
       (user) => user.email === values.email
     );
     if (isEmailExists) {
-      navigate("/usertable");
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        user: values.email,
+      });
+      navigate("/users");
     } else {
+      dispatch({ type: "LOGIN_ERROR", error: "Email is incorrect" });
       setLoginError("Email is incorrect");
       setFailedTimes((prev) => prev + 1);
     }
